@@ -37,8 +37,8 @@ if( window.CSS === undefined ){
         window.CSS.supports = function(prop,value){
             var el, p, split, uc = [], lc;
 
-            el = document.createElement('div');
-            document.body.appendChild( el );
+            el = document.createElement('el');
+            document.body.appendChild(el);
             el.style[prop] = value;
 
             p = window.getComputedStyle(el);
@@ -63,6 +63,7 @@ if( window.CSS === undefined ){
             } else {
                 return !!p.getPropertyValue(prop);
             }
+            document.body.removeChild(el);
         }
     }
 }
