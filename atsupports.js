@@ -45,6 +45,7 @@ if( window.CSS === undefined ){
 
             if( prop.indexOf('-') > -1 ){
 
+                /* Map isn't supported in < IE9 */
                 prop.split('-').map( function(s){
                     var s = s.replace(/^\w/, s.charAt(0).toUpperCase() );
                     uc.push(s);
