@@ -45,14 +45,15 @@ if( window.CSS === undefined ){
 
             if( prop.indexOf('-') > -1 ){
 
-                /* Map isn't supported in < IE9 */
+                /* Array.prototype.map isn't supported in < IE9 */
                 prop.split('-').map( function(s){
+                    /* Capitalizes first letter. */
                     var s = s.replace(/^\w/, s.charAt(0).toUpperCase() );
                     uc.push(s);
                 });
 
-                uc = uc.join('');
-                lc = uc.replace(/^\w/, uc.charAt(0).toLowerCase());
+                uc = uc.join(''); /* Creates CamelCase */
+                lc = uc.replace(/^\w/, uc.charAt(0).toLowerCase()); /* Creates camelCase */
 
                 if( ( p[ uc ] !== undefined ) || ( p[ lc ] !== undefined ) ){
                     return true;
