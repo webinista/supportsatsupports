@@ -32,7 +32,15 @@ if( window.CSS === undefined && window.CSSRule.SUPPORTS_RULE !== undefined){
 
     if( window.supportsCSS !== undefined ){
         window.CSS.supports = function(prop,value){
-            return window.supportsCSS(prop,value);
+        	if( arguments.length !== 2){
+        		var err = document.createEvent('Event');
+        		err.initEvent('error');
+        		err.code = 6;
+        		err.message = 'WRONG_ARGUMENTS_ERR';
+        		window.dispatchEvent(err);
+        	} else {
+            	return window.supportsCSS(prop,value);
+            }
         }
     } else {
         window.CSS.supports = function(prop,value){
