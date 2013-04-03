@@ -25,54 +25,55 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
+(function(w){
+	if( !!w.CSS && !!w.CSSSupportsRule){
+		w.CSS = {};
+		var el, comp;
 
-if( window.CSS === undefined && window.CSSRule.SUPPORTS_RULE !== undefined){
-    window.CSS = {};
-    var el, comp;
+		if( w.supportsCSS !== undefined ){
+			w.CSS.supports = function(prop,value){
+				if( arguments.length !== 2){
+					var err = document.createEvent('Event');
+					err.initEvent('error');
+					err.code = 6;
+					err.message = 'WRONG_ARGUMENTS_ERR';
+					w.dispatchEvent(err);
+				} else {
+					return w.supportsCSS(prop,value);
+				}
+			}
+		} else {
+			w.CSS.supports = function(prop,value){
+				var el, p, split, uc = [], lc;
 
-    if( window.supportsCSS !== undefined ){
-        window.CSS.supports = function(prop,value){
-        	if( arguments.length !== 2){
-        		var err = document.createEvent('Event');
-        		err.initEvent('error');
-        		err.code = 6;
-        		err.message = 'WRONG_ARGUMENTS_ERR';
-        		window.dispatchEvent(err);
-        	} else {
-            	return window.supportsCSS(prop,value);
-            }
-        }
-    } else {
-        window.CSS.supports = function(prop,value){
-            var el, p, split, uc = [], lc;
+				el = document.createElement('el');
+				document.body.appendChild(el);
+				el.style[prop] = value;
 
-            el = document.createElement('el');
-            document.body.appendChild(el);
-            el.style[prop] = value;
+				p = w.getComputedStyle(el);
 
-            p = window.getComputedStyle(el);
+				if( prop.indexOf('-') > -1 ){
 
-            if( prop.indexOf('-') > -1 ){
+					/* Array.prototype.map isn't supported in < IE9 */
+					prop.split('-').map( function(s){
+						/* Capitalizes first letter. */
+						var s = s.replace(/^\w/, s.charAt(0).toUpperCase() );
+						uc.push(s);
+					});
 
-                /* Array.prototype.map isn't supported in < IE9 */
-                prop.split('-').map( function(s){
-                    /* Capitalizes first letter. */
-                    var s = s.replace(/^\w/, s.charAt(0).toUpperCase() );
-                    uc.push(s);
-                });
+					uc = uc.join(''); /* Creates CamelCase */
+					lc = uc.replace(/^\w/, uc.charAt(0).toLowerCase()); /* Creates camelCase */
 
-                uc = uc.join(''); /* Creates CamelCase */
-                lc = uc.replace(/^\w/, uc.charAt(0).toLowerCase()); /* Creates camelCase */
-
-                if( ( p[ uc ] !== undefined ) || ( p[ lc ] !== undefined ) ){
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return !!p.getPropertyValue(prop);
-            }
-            document.body.removeChild(el);
-        }
-    }
-}
+					if( ( p[ uc ] !== undefined ) || ( p[ lc ] !== undefined ) ){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return !!p.getPropertyValue(prop);
+				}
+				document.body.removeChild(el);
+			}
+		}
+	}
+})(window)
