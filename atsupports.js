@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
 (function(w){
-	if( !!w.CSS && !!w.CSSSupportsRule){
+	if( !!w.CSS && !!w.CSSRule.SUPPORTS_RULE){
 		w.CSS = {};
 		var el, comp;
 
