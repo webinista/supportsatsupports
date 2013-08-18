@@ -1,5 +1,5 @@
 /*
-atSupports version 1.0
+atSupports version 1.1
 Copyright 2012 Tiffany B. Brown
 http://tiffanybbrown.com/
 
@@ -25,8 +25,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
+
 (function(w){
-	if( !!w.CSS && !!w.CSSRule.SUPPORTS_RULE){
+	if( !!w.CSS && !!(w.cssRule || {}).SUPPORTS_RULE){
 		w.CSS = {};
 		var el, comp;
 
